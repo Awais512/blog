@@ -37,13 +37,14 @@ class PostController extends Controller
      */
     public function store(CreatePostRequest $request)
     {
-        $image = $request->image->store('posts');
-        Post::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'content' => $request->content,
-            'image' => $image
-        ]);
+        $input = $request->all();
+        if ($file = $request->file('image')) {
+            $destination = 'images/post_images';
+            $name = uniqid() . $file->getClientOriginalName();
+            $file->move($destination, $name);
+            $input['image'] = $destination . '/' . $name;
+        }
+        Post::create($input);
 
         session()->flash('success', 'Post Created Successfully');
         return redirect(route('posts.index'));
@@ -89,8 +90,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        session()->flash('success', 'Post archieved Successfully');
+        return redirect(route('posts.index'));
     }
 }

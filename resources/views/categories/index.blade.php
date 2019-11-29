@@ -17,6 +17,7 @@
             </thead>
             <tbody>
                 @foreach ($categories as $category)
+                
                     <tr>
                     <td>{{$category->name}}</td>
                     <td>
@@ -29,9 +30,12 @@
         </table>
 
         <!-- Modal -->
+
+        
+
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteeModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-        <form action="{{route('categories.destroy',$category->id)}}" method="POST" id="deleteCategoryForm">
+        <form action="" method="POST" id="deleteCategoryForm">
             @csrf
               @method('DELETE')
                 <div class="modal-content">

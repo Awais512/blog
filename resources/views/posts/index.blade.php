@@ -20,7 +20,7 @@
                 @foreach ($posts as $post)
                     <tr>
                         <td>
-                        <img src="{{ url('storage/' .$post->image) }}" height="60px" width="60px" alt="">
+                        <img src="{{ asset($post->image) }}" height="120px" width="120px" alt="">
                         </td>
                     <td>{{$post->title}}</td>
                     <td>
@@ -28,7 +28,11 @@
                     </td>
 
                     <td>
-                        <a href="" class="btn btn-danger sm">Trash</a>
+                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">Trash</button>
+                    </form>
                     </td>
                     </tr>
                 @endforeach
