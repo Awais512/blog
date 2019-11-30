@@ -9,6 +9,12 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <style>
+    
+    a.btn-info {
+        color: #fff;
+    }
+    </style>
 
     @yield('css')
 
