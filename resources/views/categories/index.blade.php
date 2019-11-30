@@ -9,25 +9,29 @@
         Categories
     </div>    
     <div class="card body">
-        <table class="table">
-            <thead>
-                
-                <th>Name</th>
-                <th></th>
-            </thead>
-            <tbody>
-                @foreach ($categories as $category)
-                
-                    <tr>
-                    <td>{{$category->name}}</td>
-                    <td>
-                        <a href="{{route('categories.edit', $category->id)}}" class="btn btn-info btn-sm">Edit</a>
-                        <button class="btn btn-danger btn-sm" onclick="handleDelete({{$category->id}})">Delete</button>
-                    </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+      @if ($categories->count()> 0)
+      <table class="table">
+        <thead>
+            
+            <th>Name</th>
+            <th></th>
+        </thead>
+        <tbody>
+            @foreach ($categories as $category)
+            
+                <tr>
+                <td>{{$category->name}}</td>
+                <td>
+                    <a href="{{route('categories.edit', $category->id)}}" class="btn btn-info btn-sm">Edit</a>
+                    <button class="btn btn-danger btn-sm" onclick="handleDelete({{$category->id}})">Delete</button>
+                </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+      @else
+      <h3 class="text-center">No Categories Yet</h3>
+      @endif
 
         <!-- Modal -->
 
