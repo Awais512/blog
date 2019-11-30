@@ -67,9 +67,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('posts.create')->with('post', $post);
     }
 
     /**
@@ -79,9 +79,20 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $data = $request->all();
+        if ($file = $request->file('image')) {
+            $destination = 'images/post_images';
+            $name = uniqid() . $file->getClientOriginalName();
+            $file->move($destination, $name);
+            $data['image'] = $destination . '/' . $name;
+        }
+
+        $post->update($data);
+
+        session()->flash('success', 'Post Updated Successfully');
+        return redirect(route('posts.index'));
     }
 
     /**
