@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        return $this->middleware('VerifyCategoriesCount')->only(['create', 'store']);
+    }
     /**
      * Display a listing of the resource.
      *
