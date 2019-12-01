@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Http\Requests\posts\CreatePostRequest;
+use App\Http\Requests\posts\UpdatePostRequest;
 use App\Post;
 use Illuminate\Http\Request;
 
@@ -26,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('posts.create')->with('categories', Category::all());
     }
 
     /**
@@ -38,6 +40,7 @@ class PostController extends Controller
     public function store(CreatePostRequest $request)
     {
         $input = $request->all();
+        $input['category_id'] = $request->category;
         if ($file = $request->file('image')) {
             $destination = 'images/post_images';
             $name = uniqid() . $file->getClientOriginalName();
@@ -69,7 +72,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.create')->with('post', $post);
+        return view('posts.create')->with('post', $post)->with('categories', Category::all());
     }
 
     /**
@@ -79,9 +82,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
     {
         $data = $request->all();
+        $data['category_id'] = $request->category;
         if ($file = $request->file('image')) {
             $destination = 'images/post_images';
             $name = uniqid() . $file->getClientOriginalName();
