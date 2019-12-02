@@ -66,19 +66,20 @@
             <div class="form-group">
                 <label for="tags">Tags</label>
                
-                        <select name="tags[]" id="tags" class="form-control" multiple>
+                        <select name="tags[]" id="tags" class="form-control selectTag" multiple>
                                 @foreach ($tags as $tag)
                                 <option value="{{$tag->id}}"
-                                       @if(isset($post))
+                                        @if(isset($post))
                                         @if($post->hasTag($tag->id))
                                                 selected
                                         @endif
-                                       @endif
+                                        @endif
                                         >
                                         {{$tag->name}}
                                 </option>
                                 @endforeach
                         </select>
+                        
             </div>
             @endif
             <div class="form-group">
@@ -93,10 +94,14 @@
 @section('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix-core.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
 
 <script>
         flatpickr("#published_at", {
                 enableTime:true
+        });
+        $(document).ready(function(){
+                $('.selectTag').select2();
         });
 
 </script>
@@ -105,5 +110,6 @@
 @section('css')
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 
