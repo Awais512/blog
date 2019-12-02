@@ -6,6 +6,7 @@ use App\Category;
 use App\Http\Requests\posts\CreatePostRequest;
 use App\Http\Requests\posts\UpdatePostRequest;
 use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -32,7 +33,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create')->with('categories', Category::all());
+        return view('posts.create')->with('categories', Category::all())->with('tags', Tag::all());
     }
 
     /**
@@ -43,6 +44,7 @@ class PostController extends Controller
      */
     public function store(CreatePostRequest $request)
     {
+
         $input = $request->all();
         $input['category_id'] = $request->category;
         if ($file = $request->file('image')) {
@@ -51,7 +53,11 @@ class PostController extends Controller
             $file->move($destination, $name);
             $input['image'] = $destination . '/' . $name;
         }
-        Post::create($input);
+        $post = Post::create($input);
+
+        if ($request->tags) {
+            $post->tags()->attach($request->tags);
+        }
 
         session()->flash('success', 'Post Created Successfully');
         return redirect(route('posts.index'));
@@ -76,7 +82,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.create')->with('post', $post)->with('categories', Category::all());
+
+        return view('posts.create')->with('post', $post)->with('categories', Category::all())->with('tags', Tag::all());
     }
 
     /**
@@ -95,6 +102,9 @@ class PostController extends Controller
             $name = uniqid() . $file->getClientOriginalName();
             $file->move($destination, $name);
             $data['image'] = $destination . '/' . $name;
+        }
+        if ($post->tags) {
+            $post->tags()->sync($request->tags);
         }
 
         $post->update($data);

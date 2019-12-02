@@ -14,13 +14,14 @@
         <thead>
             
             <th>Name</th>
-            <th></th>
+            <th>Posts Count</th>
             <th></th>
         </thead>
         <tbody>
             @foreach ($tags as $tag)
                 <tr>
                 <td>{{$tag->name}}</td>
+                <td>{{$tag->posts->count()}}</td>
                
                 <td>
                     
