@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+use App\Http\Controllers\blog\PostsController;
+
+Route::get('/', 'WelcomeController@index')->name('welcome');
 
 Auth::routes();
 
@@ -19,6 +21,7 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('blog/posts/{post}', [PostsController::class, 'show'])->name('blog.show');
 
     Route::resource('categories', 'CategoryController');
     Route::resource('posts', 'PostController');

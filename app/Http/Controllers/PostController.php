@@ -47,6 +47,7 @@ class PostController extends Controller
 
         $input = $request->all();
         $input['category_id'] = $request->category;
+        $input['user_id'] = auth()->user()->id;
         if ($file = $request->file('image')) {
             $destination = 'images/post_images';
             $name = uniqid() . $file->getClientOriginalName();
